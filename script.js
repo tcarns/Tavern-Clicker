@@ -19,7 +19,7 @@ var upgrades = [
   { cost: 15.0, clickChange: 1.0, passiveChange: 0.0, htmlID: 'biggerMugs', relation: function(){return;} }, // biggerMugs, id = 0.
   { cost: 50.0, clickChange: 0.0, passiveChange: 0.0, htmlID: 'bustierMaids', relation: function() {
       passiveIncome -= (buildings[0].totalPurchased * buildings[0].passiveChange);
-      buildings[0].passiveChange *= 1.5;
+      buildings[0].passiveChange *= 1.25;
       passiveIncome += (buildings[0].totalPurchased * buildings[0].passiveChange)
   }} // bustierMaids, id = 1.
 ];
