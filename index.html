@@ -9,20 +9,21 @@
   <body>
     <h1 id='header'>Tavern Clicker</h1>
     <h2 id='money'>Gold: 0</h2>
-    <p  id='buildList'></p>
+    <p  id='buildingList'>No buildings currently built.</p>
 
     <button type='button' id='brewButton' onClick='updateGoldClick(money)'>Brew</button>
+    <br><br>
+    <h3><u>Infrastructure</u></h3>
+    <button type='button' id='biggerMugs' onClick='purchaseUpgrade(0)'>Bigger Mugs: 15 gold<br>Increases click income by 1</button>
+    <button type='button' id='bustierMaids' onClick='purchaseUpgrade(1)'>Bustier Maids: 50 gold<br>Improves income from Maids by 25%</button>
+    <br><br>
+    <h3><u>Personnel</u></h3>
+    <button type='button' id='barkeepers' onClick='purchaseBuilding(1)'>Barkeepers: 10 gold<br>Autoclicks every 0.5 seconds</button>
+    <button type='button' id='moreMaids' onClick='purchaseBuilding(0)'>More Maids: 20 gold<br>Produces 1 gold a second</button>
 
-    <div id='upgradeButtons'>
-      <br>
-      <button type='button' id='biggerMugs' onClick='purchaseUpgrade(0)'>Bigger Mugs: 15 gold<br>Increases click income by 1</button>
-      <button type='button' id='bustierMaids' onClick='purchaseUpgrade(1)'>Bustier Maids: 50 gold<br>Improves income from Maids by 25%</button>
-    </div>
-    <br>
-    <div id='buildingButtons'>
-      <button type='button' id='moreMaids' onClick='purchaseBuilding(0)'>More Maids: 20 gold<br>Increases passive income by 1</button>
-    </div>
-
+    <script src='https://unpkg.com/@popperjs/core@2'></script>
+    <script src='https://unpkg.com/tippy.js@6'></script>
+    <script src='tippy.js'></script>
     <script src='script.js'></script>
   </body>
 </html>
