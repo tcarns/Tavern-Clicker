@@ -7,7 +7,7 @@ tippy('#biggerMugs', {
 
 tippy('#bustierMaids', {
   allowHTML: true,
-  content: '<center>Particularly... <i>excited</i> customers tend to spend more gold if our maids have certain... <i>assets.</i></center>',
+  content: '<center>Particularly... <i>excitable</i> customers tend to spend more gold if our maids have certain... <i>assets.</i></center>',
   placement: 'auto-end',
   maxWidth: 250,
 });
