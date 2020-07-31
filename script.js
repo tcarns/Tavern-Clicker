@@ -1,3 +1,9 @@
+// Holds information for loading and saving player information
+var saveState = {}
+
+// Holds information pertaining to the amount of every built building. See: updateBuildList
+var buildList = []
+
 var gold = 0.0
 var trueGold = 0.0 // 'gold' is truncated in the game loop whereas 'trueGold' isn't.
 var passiveIncome = 0.0
@@ -60,25 +66,51 @@ function purchaseBuilding(id) {
   updateBuildList(id)
 }
 
-// Holds information pertaining to the amount of every built building. See: updateBuildList
-var buildList = []
-
 // Updates the list of buildings that have been purchased: increments the total amount of that building purchased, handles singular/plural, builds the
 // building list, excluding null values, then updates HTML.
 function updateBuildList(id) {
-  buildStr = ''
   buildings[id].totalPurchased++
   if(buildings[id].totalPurchased > 1) {
     buildList[id] = buildings[id].totalPurchased + buildings[id].buildListP + '<br>'
   } else {
     buildList[id] = buildings[id].totalPurchased + buildings[id].buildListS + '<br>'
   }
+  updateBuildListHTML()
+}
+
+function updateBuildListHTML() {
+  buildStr = ''
   for(var i = 0; i < buildList.length; i++) {
     if(buildList[i] != null) {
       buildStr += buildList[i]
     }
   }
   document.getElementById('buildingList').innerHTML = buildStr
+}
+
+function saveGame() {
+  saveState.gold = gold
+  saveState.trueGold = trueGold
+  saveState.passiveIncome = passiveIncome
+  saveState.clickIncome = clickIncome
+  saveState.buildList = buildList
+  localStorage.setItem('save', JSON.stringify(saveState))
+  console.log('Game saved.')
+}
+
+function loadGame() {
+    saveState = JSON.parse(localStorage.getItem('save'))
+    if(saveState == null) {
+      return
+    }
+    gold = saveState.gold
+    trueGold = saveState.trueGold
+    passiveIncome = saveState.passiveIncome
+    clickIncome = saveState.clickIncome
+    buildList = saveState.buildList
+    if(buildList.length != 0) {
+      updateBuildListHTML()
+    }
 }
 
 // Game loop.
@@ -89,3 +121,15 @@ setInterval(function() {
   gold = Math.trunc(trueGold)
   document.getElementById('money').innerHTML = 'Gold: ' + gold
 }, 16.67)
+
+// Saves the game every 10 seconds.
+// Current elements saved: gold, trueGold, passiveIncome, clickIncome, buildList
+setInterval(function() {
+  if(saveState != null) {
+    saveGame()
+  }
+  else {
+    saveState = {}
+    saveGame()
+  }
+}, 10000)
