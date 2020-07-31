@@ -1,8 +1,11 @@
-// Holds information for loading and saving player information
+// Holds information for loading and saving player information.
 var saveState = {}
 
-// Holds information pertaining to the amount of every built building. See: updateBuildList
+// Holds information pertaining to the amount of every built building. See: updateBuildList.
 var buildList = []
+
+// Tracks all purchased upgrades.
+var upgradesPurchased = []
 
 var gold = 0.0
 var trueGold = 0.0 // 'gold' is truncated in the game loop whereas 'trueGold' isn't.
@@ -48,6 +51,7 @@ function purchaseUpgrade(id) {
   trueGold -= upgrades[id].cost
   clickIncome += upgrades[id].clickChange
   passiveIncome += upgrades[id].passiveChange
+  upgradesPurchased[id] = true
   document.getElementById(upgrades[id].htmlID).remove()
   upgrades[id].relation()
 }
@@ -83,9 +87,19 @@ function updateBuildListHTML() {
   for(var i = 0; i < buildList.length; i++) {
     if(buildList[i] != null) {
       buildStr += buildList[i]
+      console.log(buildings[i].htmlID)
+      document.getElementById(buildings[i].htmlID).innerHTML = buildings[i].updateString + (buildings[i].cost) + ' gold<br>' + buildings[i].buildingDescription
     }
   }
   document.getElementById('buildingList').innerHTML = buildStr
+}
+
+function updateUpgradesHTML() {
+  for(var i = 0; i < upgradesPurchased.length; i++) {
+    if(upgradesPurchased[i] == true) {
+      document.getElementById(upgrades[i].htmlID).remove()
+    }
+  }
 }
 
 function saveGame() {
@@ -94,6 +108,8 @@ function saveGame() {
   saveState.passiveIncome = passiveIncome
   saveState.clickIncome = clickIncome
   saveState.buildList = buildList
+  saveState.buildings = buildings
+  saveState.upgradesPurchased = upgradesPurchased
   localStorage.setItem('save', JSON.stringify(saveState))
   console.log('Game saved.')
 }
@@ -108,9 +124,10 @@ function loadGame() {
     passiveIncome = saveState.passiveIncome
     clickIncome = saveState.clickIncome
     buildList = saveState.buildList
-    if(buildList.length != 0) {
-      updateBuildListHTML()
-    }
+    buildings = saveState.buildings
+    upgradesPurchased = saveState.upgradesPurchased
+    updateBuildListHTML()
+    updateUpgradesHTML()
 }
 
 // Game loop.
